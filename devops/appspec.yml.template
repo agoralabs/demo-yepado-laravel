@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html/$ENV_APP_NAME
+hooks:
+  AfterInstall:
+    - location: devops/appspec.sh
+      timeout: 1000
+      runas: root

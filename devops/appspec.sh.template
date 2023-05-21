@@ -1,0 +1,16 @@
+#!/bin/bash
+COMPOSER_ALLOW_SUPERUSER=1
+cd /var/www/html/$APP_NAME
+sudo composer update --no-interaction
+sudo composer install --no-interaction
+sudo npm install
+sudo chmod 777 -R storage/
+sudo chmod 777 -R bootstrap/
+sudo chmod 777 -R vendor/
+sudo php artisan key:generate
+
+sudo cp devops/000-default.conf /etc/apache2/sites-available/000-default.conf
+sudo cp devops/dir.conf /etc/apache2/mods-enabled/dir.conf
+sudo cp devops/apache2.conf /etc/apache2/apache2.conf
+sudo cp devops/php.ini /etc/php/8.1/apache2/php.ini
+sudo systemctl restart apache2
