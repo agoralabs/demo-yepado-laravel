@@ -6,4 +6,4 @@ phases:
       - ./devops/buildspec.sh
 artifacts:
   files:
-    - **/*
+    - '**/*'
