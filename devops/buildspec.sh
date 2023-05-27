@@ -33,7 +33,9 @@ appenvsubstr(){
 
 echo "SCRIPT_MODE=$SCRIPT_MODE"
 
-if [ "$SCRIPT_MODE" == "CLOUDOCKER" ] 
+cat ./buildspec.sh
+
+if [ "CLOUDOCKER" == $SCRIPT_MODE ] 
 then
 
     appenvsubstr devops/appspec.sh.docker.template devops/appspec.sh
