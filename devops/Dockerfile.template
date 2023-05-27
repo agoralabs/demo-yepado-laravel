@@ -1,0 +1,51 @@
+FROM $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/$PHP_REPO_NAME:$PHP_REPO_TAG_APACHE
+
+USER root
+
+# Set working directory
+WORKDIR /var/www/html/$ENV_APP_NAME
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    zip \
+    unzip \
+    ruby-full \
+    wget \
+    unzip \
+    software-properties-common \
+    curl \
+    apache2
+
+
+# Install nodejs 16
+RUN curl -s https://deb.nodesource.com/setup_16.x | bash ; \
+    apt install nodejs -y
+
+# Enable mod rewrite
+RUN a2enmod rewrite
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Copy code to /var/www/html/$ENV_APP_NAME
+COPY . /var/www/html/$ENV_APP_NAME
+
+
+# Copy apache/php configs
+RUN cp ./tmp/000-default.conf /etc/apache2/sites-available/000-default.conf ; \
+    cp ./tmp/dir.conf /etc/apache2/mods-enabled/dir.conf ; \
+    cp ./tmp/apache2.conf /etc/apache2/apache2.conf
+#RUN cp ./tmp/php.ini /etc/php/8.1/apache2/php.ini
+
+
+# Deployment steps
+RUN composer install --optimize-autoloader --no-dev
+RUN npm install
+
+RUN chmod 777 -R vendor \
+    storage \
+    bootstrap
+
+RUN php artisan key:generate
+
+EXPOSE 80

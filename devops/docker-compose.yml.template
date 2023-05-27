@@ -1,0 +1,12 @@
+services:
+  laravel-app-${TF_VAR_ENV_APP_ENV_NAME}:
+    image: ${TF_VAR_ENV_APP_NAME}:${TF_VAR_ENV_APP_BACKEND_NAMESPACE}_${TF_VAR_ENV_APP_ENV_NAME}
+    container_name:  ${TF_VAR_ENV_APP_NAME}_${TF_VAR_ENV_APP_BACKEND_NAMESPACE}_${TF_VAR_ENV_APP_ENV_NAME}
+    build:
+      context: ./
+    volumes:
+      - type: bind
+        source: ${LOCAL_BACKEND_SOURCE_FOLDER}/tmp
+        target: /var/www/html/${TF_VAR_ENV_APP_NAME}/tmp/
+    ports:
+        - '${LOCAL_BACKEND_PORT}:80'
