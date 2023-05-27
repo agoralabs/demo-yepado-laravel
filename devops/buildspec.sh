@@ -31,11 +31,7 @@ appenvsubstr(){
     | envsubst '$PUSHER_APP_CLUSTER' > $p_destination
 }
 
-echo "SCRIPT_MODE=$SCRIPT_MODE"
-
-cat ./buildspec.sh
-
-if [ "CLOUDOCKER" == $SCRIPT_MODE ] 
+if [ "$SCRIPT_MODE" == "CLOUDOCKER" ] 
 then
 
     appenvsubstr devops/appspec.sh.docker.template devops/appspec.sh
