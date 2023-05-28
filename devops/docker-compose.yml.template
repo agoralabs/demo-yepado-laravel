@@ -6,7 +6,7 @@ services:
       context: ./
     volumes:
       - type: bind
-        source: ${TF_VAR_LOCAL_BACKEND_SOURCE_FOLDER}/tmp
+        source: ${TF_VAR_ENV_LOCAL_BACKEND_SOURCE_FOLDER}/tmp
         target: /var/www/html/${TF_VAR_ENV_APP_NAME}/tmp/
     ports:
-        - '${TF_VAR_LOCAL_BACKEND_PORT}:80'
+        - '${TF_VAR_ENV_LOCAL_BACKEND_PORT}:80'

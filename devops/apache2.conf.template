@@ -173,7 +173,7 @@ Include ports.conf
 	Require all granted
 </Directory>
 
-<Directory "/var/www/html/$ENV_APP_NAME/public">
+<Directory "/var/www/html/$TF_VAR_ENV_APP_NAME/public">
    AllowOverride All
 </Directory>
 

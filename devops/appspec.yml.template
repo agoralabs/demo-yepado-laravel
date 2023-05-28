@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/html/$ENV_APP_NAME
+    destination: /var/www/html/$TF_VAR_ENV_APP_NAME
 hooks:
   AfterInstall:
     - location: devops/appspec.sh

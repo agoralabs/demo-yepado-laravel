@@ -1,9 +1,9 @@
-FROM $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/$TF_VAR_PHP_REPO_NAME:$TF_VAR_PHP_REPO_TAG_APACHE
+FROM $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/$TF_VAR_ENV_PHP_REPO_NAME:$TF_VAR_ENV_PHP_REPO_TAG_APACHE
 
 USER root
 
 # Set working directory
-WORKDIR /var/www/html/$ENV_APP_NAME
+WORKDIR /var/www/html/$TF_VAR_ENV_APP_NAME
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -27,8 +27,8 @@ RUN a2enmod rewrite
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy code to /var/www/html/$ENV_APP_NAME
-COPY . /var/www/html/$ENV_APP_NAME
+# Copy code to /var/www/html/$TF_VAR_ENV_APP_NAME
+COPY . /var/www/html/$TF_VAR_ENV_APP_NAME
 
 
 # Copy apache/php configs
