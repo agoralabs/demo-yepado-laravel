@@ -31,23 +31,26 @@ appenvsubstr(){
     | envsubst '$PUSHER_APP_CLUSTER' > $p_destination
 }
 
+mkdir -p tmp
+chmod 777 tmp
+
+appenvsubstr devops/000-default.conf.template tmp/000-default.conf
+appenvsubstr devops/dir.conf.template tmp/dir.conf
+appenvsubstr devops/apache2.conf.template tmp/apache2.conf
+appenvsubstr devops/php.ini.template tmp/php.ini
+appenvsubstr devops/appspec.yml.template appspec.yml
+appenvsubstr .env.example .env
+
 if [ "$SCRIPT_MODE" == "CLOUDOCKER" ] 
 then
 
     appenvsubstr devops/appspec.sh.docker.template devops/appspec.sh
-    appenvsubstr devops/appspec.yml.template appspec.yml
     appenvsubstr devops/Dockerfile.template Dockerfile
     appenvsubstr devops/docker-compose.yml.template docker-compose.yml
 
 else
 
-    appenvsubstr devops/000-default.conf.template devops/000-default.conf
-    appenvsubstr devops/dir.conf.template devops/dir.conf
-    appenvsubstr devops/apache2.conf.template devops/apache2.conf
-    appenvsubstr devops/php.ini.template devops/php.ini
-    appenvsubstr devops/appspec.yml.template appspec.yml
     appenvsubstr devops/appspec.sh.template devops/appspec.sh
-    appenvsubstr .env.example .env
 
 fi
 
