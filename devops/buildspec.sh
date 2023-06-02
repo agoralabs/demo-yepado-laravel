@@ -16,6 +16,7 @@ appenvsubstr(){
     | envsubst '$TF_VAR_ENV_APP_DATABASE_NAME' \
     | envsubst '$TF_VAR_ENV_APP_DATABASE_USERNAME' \
     | envsubst '$TF_VAR_ENV_APP_DATABASE_PASSWORD' \
+    | envsubst '$TF_VAR_ENV_APP_DATABASE_PORT' \
     | envsubst '$TF_VAR_ENV_APP_NAMESPACE' \
     | envsubst '$TF_VAR_ENV_APP_AWS_ACCOUNT_ID' \
     | envsubst '$TF_VAR_ENV_PHP_REPO_NAME' \
