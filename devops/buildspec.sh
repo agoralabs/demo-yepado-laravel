@@ -66,6 +66,8 @@ then
     docker tag $TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com/$TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME
 
     echo "Push the image..."
+    docker images -a
+    aws ecr get-login-password --region $TF_VAR_ENV_APP_AWS_REGION | docker login --username AWS --password-stdin $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com
     docker push $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com/$TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME
 
     aws eks update-kubeconfig --region $TF_VAR_ENV_APP_AWS_REGION --name $TF_VAR_ENV_APP_BACKEND_EKS_CLUSTER_NAME
