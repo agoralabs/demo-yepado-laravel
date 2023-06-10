@@ -47,6 +47,7 @@ then
     appenvsubstr devops/appspec.sh.docker.template devops/appspec.sh
     appenvsubstr devops/Dockerfile.template Dockerfile
     appenvsubstr devops/docker-compose.yml.template docker-compose.yml
+    chmod 777 devops/appspec.sh
 
 elif [ "$TF_VAR_ENV_SCRIPT_MODE" == "CLOUDEKS" ] 
 then
@@ -71,8 +72,9 @@ then
 
 else
     appenvsubstr devops/appspec.sh.template devops/appspec.sh
+    chmod 777 devops/appspec.sh
 
 fi
 
 
-chmod 777 devops/appspec.sh
+
