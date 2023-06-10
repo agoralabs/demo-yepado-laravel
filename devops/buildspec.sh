@@ -49,7 +49,7 @@ then
     appenvsubstr devops/docker-compose.yml.template docker-compose.yml
 
 elif [ "$TF_VAR_ENV_SCRIPT_MODE" == "CLOUDEKS" ] 
-
+then
     appenvsubstr devops/Dockerfile.template Dockerfile
     appenvsubstr devops/laravel-kubernetes.yaml.template laravel-kubernetes.yaml
     appenvsubstr devops/laravel-service.yaml.template laravel-service.yaml
