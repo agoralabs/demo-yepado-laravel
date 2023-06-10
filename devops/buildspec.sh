@@ -59,6 +59,9 @@ then
 
     docker build -t $TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME .
 
+    echo "Create $TF_VAR_ENV_APP_NAME repository..."
+    aws ecr describe-repositories --repository-names $TF_VAR_ENV_APP_NAME || aws ecr create-repository --repository-name $TF_VAR_ENV_APP_NAME
+
     echo "Tag your image with the Amazon ECR registry..."
     docker tag $TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com/$TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME
 
