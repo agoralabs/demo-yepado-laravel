@@ -26,7 +26,9 @@ appenvsubstr(){
     | envsubst '$TF_VAR_ENV_PUSHER_HOST' \
     | envsubst '$TF_VAR_ENV_PUSHER_PORT' \
     | envsubst '$TF_VAR_ENV_PUSHER_SCHEME' \
-    | envsubst '$TF_VAR_ENV_PUSHER_APP_CLUSTER' > $p_destination
+    | envsubst '$TF_VAR_ENV_PUSHER_APP_CLUSTER' \
+    | envsubst '$TF_VAR_ENV_SCRIPT_MODE' \
+    | envsubst '$TF_VAR_ENV_APP_BACKEND_EKS_CLUSTER_NAME' > $p_destination
 }
 
 mkdir -p tmp
@@ -46,8 +48,28 @@ then
     appenvsubstr devops/Dockerfile.template Dockerfile
     appenvsubstr devops/docker-compose.yml.template docker-compose.yml
 
-else
+elif [ "$TF_VAR_ENV_SCRIPT_MODE" == "CLOUDEKS" ] 
 
+    appenvsubstr devops/Dockerfile.template Dockerfile
+    appenvsubstr devops/laravel-kubernetes.yaml.template laravel-kubernetes.yaml
+    appenvsubstr devops/laravel-service.yaml.template laravel-service.yaml
+
+    aws ecr get-login-password --region $TF_VAR_ENV_APP_AWS_REGION | docker login --username AWS --password-stdin $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com
+
+    docker build -t $TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME .
+
+    echo "Tag your image with the Amazon ECR registry..."
+    docker tag $TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com/$TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME
+
+    echo "Push the image..."
+    docker push $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com/$TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME
+
+    aws eks update-kubeconfig --region $TF_VAR_ENV_APP_AWS_REGION --name $TF_VAR_ENV_APP_BACKEND_EKS_CLUSTER_NAME
+
+    kubectl apply -f laravel-kubernetes.yaml
+    kubectl apply -f laravel-service.yaml
+
+else
     appenvsubstr devops/appspec.sh.template devops/appspec.sh
 
 fi
