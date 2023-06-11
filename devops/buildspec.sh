@@ -72,7 +72,10 @@ then
 
     cat laravel-kubernetes.yaml
     cat laravel-service.yaml
+    
+    echo "Trying kubectl apply -f laravel-kubernetes.yaml..."
     kubectl apply -f laravel-kubernetes.yaml
+    echo "Trying kubectl apply -f laravel-service.yaml..."
     kubectl apply -f laravel-service.yaml
 
 else

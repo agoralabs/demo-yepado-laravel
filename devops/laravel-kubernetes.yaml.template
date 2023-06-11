@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: laravel
+  name: ${TF_VAR_ENV_APP_BACKEND_NAMESPACE}-${TF_VAR_ENV_APP_NAME}
   labels:
-    app: laravel
+    app: ${TF_VAR_ENV_APP_BACKEND_NAMESPACE}-${TF_VAR_ENV_APP_NAME}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: laravel
+      app: ${TF_VAR_ENV_APP_BACKEND_NAMESPACE}-${TF_VAR_ENV_APP_NAME}
   template:
     metadata:
       labels:
-        app: laravel
+        app: ${TF_VAR_ENV_APP_BACKEND_NAMESPACE}-${TF_VAR_ENV_APP_NAME}
     spec:
       containers:
-      - name: laravel-app
-        image: $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com/$TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE_$TF_VAR_ENV_APP_NAME
+      - name: ${TF_VAR_ENV_APP_BACKEND_NAMESPACE}-${TF_VAR_ENV_APP_NAME}-app
+        image: ${TF_VAR_ENV_APP_AWS_ACCOUNT_ID}.dkr.ecr.${TF_VAR_ENV_APP_AWS_REGION}.amazonaws.com/${TF_VAR_ENV_APP_NAME}:${TF_VAR_ENV_APP_BACKEND_NAMESPACE}_${TF_VAR_ENV_APP_NAME}
         ports:
         - containerPort: 80 
         env:
