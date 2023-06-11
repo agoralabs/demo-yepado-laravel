@@ -20,3 +20,5 @@ yarn-error.log
 /tmp
 Dockerfile
 docker-compose.yml
+laravel-kubernetes.yaml
+laravel-service.yaml
