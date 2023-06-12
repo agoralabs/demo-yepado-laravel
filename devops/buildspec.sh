@@ -28,7 +28,8 @@ appenvsubstr(){
     | envsubst '$TF_VAR_ENV_PUSHER_SCHEME' \
     | envsubst '$TF_VAR_ENV_PUSHER_APP_CLUSTER' \
     | envsubst '$TF_VAR_ENV_SCRIPT_MODE' \
-    | envsubst '$TF_VAR_ENV_APP_BACKEND_EKS_CLUSTER_NAME' > $p_destination
+    | envsubst '$TF_VAR_ENV_APP_BACKEND_EKS_CLUSTER_NAME' \
+    | envsubst '$TF_VAR_ENV_APP_BACKEND_DOMAIN_NAME' > $p_destination
 }
 
 mkdir -p tmp
@@ -51,12 +52,19 @@ then
 
 elif [ "$TF_VAR_ENV_SCRIPT_MODE" == "CLOUDEKS" ] 
 then
+    echo "Generating Dockerfile..."
     appenvsubstr devops/Dockerfile.template Dockerfile
+
+    echo "Generating laravel-kubernetes.yaml..."
     appenvsubstr devops/laravel-kubernetes.yaml.template laravel-kubernetes.yaml
+
+    echo "Generating laravel-service.yaml..."
     appenvsubstr devops/laravel-service.yaml.template laravel-service.yaml
 
+    echo "Login into ecr..."
     aws ecr get-login-password --region $TF_VAR_ENV_APP_AWS_REGION | docker login --username AWS --password-stdin $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com
 
+    echo "Building the Docker image..."
     docker build -t $TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME .
 
     echo "Create $TF_VAR_ENV_APP_NAME repository..."
@@ -65,20 +73,17 @@ then
     echo "Tag your image with the Amazon ECR registry..."
     docker tag $TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com/$TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME
 
-    echo "Push the image..."
+    echo "Push the image to ecr..."
     docker push $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com/$TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME
 
+    echo "Updating kubeconfig..."
     aws eks update-kubeconfig --region $TF_VAR_ENV_APP_AWS_REGION --name $TF_VAR_ENV_APP_BACKEND_EKS_CLUSTER_NAME
-
-    cat laravel-kubernetes.yaml
-    cat laravel-service.yaml
     
-    KUBERNETES_NAMESPACE=${TF_VAR_ENV_APP_BACKEND_NAMESPACE}-${TF_VAR_ENV_APP_NAME}-${TF_VAR_ENV_APP_ENV_NAME}
-
     echo "Trying kubectl apply -f laravel-kubernetes.yaml..."
-    kubectl apply -f laravel-kubernetes.yaml -n ${KUBERNETES_NAMESPACE}
+    kubectl apply -f laravel-kubernetes.yaml -n ${TF_VAR_ENV_APP_BACKEND_KUBERNETES_NAMESPACE}
+    
     echo "Trying kubectl apply -f laravel-service.yaml..."
-    kubectl apply -f laravel-service.yaml -n ${KUBERNETES_NAMESPACE}
+    kubectl apply -f laravel-service.yaml -n ${TF_VAR_ENV_APP_BACKEND_KUBERNETES_NAMESPACE}
 
 else
     appenvsubstr devops/appspec.sh.template devops/appspec.sh
