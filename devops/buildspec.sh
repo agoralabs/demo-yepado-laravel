@@ -73,10 +73,12 @@ then
     cat laravel-kubernetes.yaml
     cat laravel-service.yaml
     
+    kubectl create namespace ${TF_VAR_ENV_APP_BACKEND_NAMESPACE}-${TF_VAR_ENV_APP_NAME}
+
     echo "Trying kubectl apply -f laravel-kubernetes.yaml..."
-    kubectl apply -f laravel-kubernetes.yaml
+    kubectl apply -f laravel-kubernetes.yaml -n ${TF_VAR_ENV_APP_BACKEND_NAMESPACE}-${TF_VAR_ENV_APP_NAME}
     echo "Trying kubectl apply -f laravel-service.yaml..."
-    kubectl apply -f laravel-service.yaml
+    kubectl apply -f laravel-service.yaml -n ${TF_VAR_ENV_APP_BACKEND_NAMESPACE}-${TF_VAR_ENV_APP_NAME}
 
 else
     appenvsubstr devops/appspec.sh.template devops/appspec.sh
