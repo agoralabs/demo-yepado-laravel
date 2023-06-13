@@ -29,7 +29,8 @@ appenvsubstr(){
     | envsubst '$TF_VAR_ENV_PUSHER_APP_CLUSTER' \
     | envsubst '$TF_VAR_ENV_SCRIPT_MODE' \
     | envsubst '$TF_VAR_ENV_APP_BACKEND_EKS_CLUSTER_NAME' \
-    | envsubst '$TF_VAR_ENV_APP_BACKEND_DOMAIN_NAME' > $p_destination
+    | envsubst '$TF_VAR_ENV_APP_BACKEND_DOMAIN_NAME' \
+    | envsubst '$TF_VAR_ENV_APP_BACKEND_SSL_CERT_ARN' > $p_destination
 }
 
 mkdir -p tmp
