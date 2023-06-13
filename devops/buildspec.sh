@@ -80,6 +80,9 @@ then
     echo "Updating kubeconfig..."
     aws eks update-kubeconfig --region $TF_VAR_ENV_APP_AWS_REGION --name $TF_VAR_ENV_APP_BACKEND_EKS_CLUSTER_NAME
     
+    cat laravel-kubernetes.yaml
+    cat laravel-service.yaml
+
     echo "Trying kubectl apply -f laravel-kubernetes.yaml..."
     kubectl apply -f laravel-kubernetes.yaml -n ${TF_VAR_ENV_APP_BACKEND_KUBERNETES_NAMESPACE}
     
