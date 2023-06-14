@@ -8,9 +8,6 @@ metadata:
     alb.ingress.kubernetes.io/certificate-arn: ${TF_VAR_ENV_APP_BACKEND_SSL_CERT_ARN}
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
     alb.ingress.kubernetes.io/ssl-redirect: '443'
-    alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/group.name: ${TF_VAR_ENV_APP_BACKEND_NAMESPACE}-${TF_VAR_ENV_APP_NAME}-alb-group  #Use this to share ALB among multiple ingresses. #CostEffective
-    alb.ingress.kubernetes.io/load-balancer-name: ${TF_VAR_ENV_APP_BACKEND_NAMESPACE}-${TF_VAR_ENV_APP_NAME}-alb  # give ALB a meaningfull name otherwise a random name is assigned by AWS.
 spec:
   ingressClassName: alb
   rules:
