@@ -18,8 +18,11 @@ RUN apt-get update && apt-get install -y \
 
 
 # Install nodejs 16
-RUN curl -s https://deb.nodesource.com/setup_16.x | bash ; \
-    apt install nodejs -y
+RUN curl -s https://deb.nodesource.com/setup_16.x | bash
+
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y nodejs \
+    npm 
 
 # Enable mod rewrite
 RUN a2enmod rewrite
