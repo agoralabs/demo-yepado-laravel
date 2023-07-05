@@ -30,6 +30,7 @@ else
     sudo cp 000-default.conf /etc/apache2/sites-available/000-default.conf
     sudo cp dir.conf /etc/apache2/mods-enabled/dir.conf
     sudo cp apache2.conf /etc/apache2/apache2.conf
+    sudo cp ports.conf /etc/apache2/ports.conf
     sudo cp php.ini /etc/php/8.1/apache2/php.ini
     sudo systemctl restart apache2
 

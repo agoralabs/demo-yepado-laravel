@@ -37,7 +37,8 @@ COPY . /var/www/html/$TF_VAR_ENV_APP_NAME
 # Copy apache/php configs
 RUN cp ./000-default.conf /etc/apache2/sites-available/000-default.conf ; \
     cp ./dir.conf /etc/apache2/mods-enabled/dir.conf ; \
-    cp ./apache2.conf /etc/apache2/apache2.conf
+    cp ./apache2.conf /etc/apache2/apache2.conf ; \
+    cp ./ports.conf /etc/apache2/ports.conf
 #RUN cp ./php.ini /etc/php/8.1/apache2/php.ini
 
 

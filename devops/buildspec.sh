@@ -37,6 +37,7 @@ mkdir -p tmp
 chmod 777 tmp
 
 appenvsubstr devops/000-default.conf.template 000-default.conf
+appenvsubstr devops/ports.conf.template ports.conf
 appenvsubstr devops/dir.conf.template dir.conf
 appenvsubstr devops/apache2.conf.template apache2.conf
 appenvsubstr devops/php.ini.template php.ini
