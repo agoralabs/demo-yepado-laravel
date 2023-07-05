@@ -43,13 +43,14 @@ appenvsubstr devops/php.ini.template tmp/php.ini
 appenvsubstr devops/appspec.yml.template appspec.yml
 appenvsubstr .env.example .env
 
+appenvsubstr devops/appspec.sh.template devops/appspec.sh
+chmod 777 devops/appspec.sh
+
 if [ "$TF_VAR_ENV_SCRIPT_MODE" == "CLOUDOCKER" ] 
 then
 
-    appenvsubstr devops/appspec.sh.docker.template devops/appspec.sh
     appenvsubstr devops/Dockerfile.template Dockerfile
     appenvsubstr devops/docker-compose.yml.template docker-compose.yml
-    chmod 777 devops/appspec.sh
 
 elif [ "$TF_VAR_ENV_SCRIPT_MODE" == "CLOUDEKS" ] 
 then
@@ -88,10 +89,6 @@ then
     
     echo "Trying kubectl apply -f laravel-service.yaml..."
     kubectl apply -f laravel-service.yaml -n ${TF_VAR_ENV_APP_BACKEND_KUBERNETES_NAMESPACE}
-
-else
-    appenvsubstr devops/appspec.sh.template devops/appspec.sh
-    chmod 777 devops/appspec.sh
 
 fi
 
