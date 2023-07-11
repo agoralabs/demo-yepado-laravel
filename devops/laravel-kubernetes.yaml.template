@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: ${TF_VAR_ENV_APP_BACKEND_NAMESPACE}-${TF_VAR_ENV_APP_NAME}-app
-        image: ${TF_VAR_ENV_APP_AWS_ACCOUNT_ID}.dkr.ecr.${TF_VAR_ENV_APP_AWS_REGION}.amazonaws.com/${TF_VAR_ENV_APP_NAME}:${TF_VAR_ENV_APP_BACKEND_NAMESPACE}_${TF_VAR_ENV_APP_NAME}
+        image: ${TF_VAR_ENV_APP_AWS_ACCOUNT_ID}.dkr.ecr.${TF_VAR_ENV_APP_AWS_REGION_ECR}.amazonaws.com/${TF_VAR_ENV_APP_NAME}:${TF_VAR_ENV_APP_BACKEND_NAMESPACE}_${TF_VAR_ENV_APP_NAME}
         ports:
         - containerPort: 80 
         env:

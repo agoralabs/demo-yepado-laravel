@@ -30,7 +30,8 @@ appenvsubstr(){
     | envsubst '$TF_VAR_ENV_SCRIPT_MODE' \
     | envsubst '$TF_VAR_ENV_APP_BACKEND_EKS_CLUSTER_NAME' \
     | envsubst '$TF_VAR_ENV_APP_BACKEND_DOMAIN_NAME' \
-    | envsubst '$TF_VAR_ENV_APP_BACKEND_SSL_CERT_ARN' > $p_destination
+    | envsubst '$TF_VAR_ENV_APP_BACKEND_SSL_CERT_ARN' \
+    | envsubst '$TF_VAR_ENV_APP_AWS_REGION_ECR' > $p_destination
 }
 
 mkdir -p tmp
@@ -65,7 +66,7 @@ then
     appenvsubstr devops/laravel-service.yaml.template laravel-service.yaml
 
     echo "Login into ecr..."
-    aws ecr get-login-password --region $TF_VAR_ENV_APP_AWS_REGION | docker login --username AWS --password-stdin $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com
+    aws ecr get-login-password --region $TF_VAR_ENV_APP_AWS_REGION_ECR | docker login --username AWS --password-stdin $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION_ECR.amazonaws.com
 
     echo "Building the Docker image..."
     docker build -t $TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME .
@@ -74,10 +75,10 @@ then
     aws ecr describe-repositories --repository-names $TF_VAR_ENV_APP_NAME || aws ecr create-repository --repository-name $TF_VAR_ENV_APP_NAME
 
     echo "Tag your image with the Amazon ECR registry..."
-    docker tag $TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com/$TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME
+    docker tag $TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION_ECR.amazonaws.com/$TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME
 
     echo "Push the image to ecr..."
-    docker push $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com/$TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME
+    docker push $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION_ECR.amazonaws.com/$TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME
 
     echo "Updating kubeconfig..."
     aws eks update-kubeconfig --region $TF_VAR_ENV_APP_AWS_REGION --name $TF_VAR_ENV_APP_BACKEND_EKS_CLUSTER_NAME
