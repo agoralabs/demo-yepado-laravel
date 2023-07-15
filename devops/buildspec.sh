@@ -19,8 +19,8 @@ appenvsubstr(){
     | envsubst '$TF_VAR_ENV_APP_DATABASE_PORT' \
     | envsubst '$TF_VAR_ENV_APP_NAMESPACE' \
     | envsubst '$TF_VAR_ENV_APP_AWS_ACCOUNT_ID' \
-    | envsubst '$TF_VAR_ENV_PHP_REPO_NAME' \
-    | envsubst '$TF_VAR_ENV_PHP_REPO_TAG_APACHE' \
+    | envsubst '$TF_VAR_ENV_APP_PHP_REPO_NAME' \
+    | envsubst '$TF_VAR_ENV_APP_PHP_REPO_TAG_APACHE' \
     | envsubst '$TF_VAR_ENV_APP_AWS_REGION' \
     | envsubst '$TF_VAR_ENV_APP_PUSHER_APP_KEY' \
     | envsubst '$TF_VAR_ENV_APP_PUSHER_HOST' \
