@@ -27,7 +27,7 @@ appenvsubstr(){
     | envsubst '$TF_VAR_ENV_PUSHER_PORT' \
     | envsubst '$TF_VAR_ENV_PUSHER_SCHEME' \
     | envsubst '$TF_VAR_ENV_PUSHER_APP_CLUSTER' \
-    | envsubst '$TF_VAR_ENV_SCRIPT_MODE' \
+    | envsubst '$TF_VAR_ENV_APP_SCRIPT_MODE' \
     | envsubst '$TF_VAR_ENV_APP_BACKEND_EKS_CLUSTER_NAME' \
     | envsubst '$TF_VAR_ENV_APP_BACKEND_DOMAIN_NAME' \
     | envsubst '$TF_VAR_ENV_APP_BACKEND_SSL_CERT_ARN' \
@@ -48,13 +48,13 @@ appenvsubstr .env.example .env
 appenvsubstr devops/appspec.sh.template devops/appspec.sh
 chmod 777 devops/appspec.sh
 
-if [ "$TF_VAR_ENV_SCRIPT_MODE" == "CLOUDOCKER" ] 
+if [ "$TF_VAR_ENV_APP_SCRIPT_MODE" == "CLOUDOCKER" ] 
 then
 
     appenvsubstr devops/Dockerfile.template Dockerfile
     appenvsubstr devops/docker-compose.yml.template docker-compose.yml
 
-elif [ "$TF_VAR_ENV_SCRIPT_MODE" == "CLOUDEKS" ] 
+elif [ "$TF_VAR_ENV_APP_SCRIPT_MODE" == "CLOUDEKS" ] 
 then
     echo "Generating Dockerfile..."
     appenvsubstr devops/Dockerfile.template Dockerfile
