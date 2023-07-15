@@ -2,7 +2,7 @@
 # have to change the VirtualHost statement in
 # /etc/apache2/sites-enabled/000-default.conf
 
-Listen $TF_VAR_ENV_LOCAL_BACKEND_PORT
+Listen $TF_VAR_ENV_APP_BACKEND_LOCAL_PORT
 
 <IfModule ssl_module>
         Listen 443

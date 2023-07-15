@@ -9,8 +9,8 @@ appenvsubstr(){
     envsubst '$TF_VAR_ENV_APP_NAME' < $p_template \
     | envsubst '$TF_VAR_ENV_APP_ENV_NAME' \
     | envsubst '$TF_VAR_ENV_APP_BACKEND_NAMESPACE' \
-    | envsubst '$TF_VAR_ENV_LOCAL_BACKEND_SOURCE_FOLDER' \
-    | envsubst '$TF_VAR_ENV_LOCAL_BACKEND_PORT' \
+    | envsubst '$TF_VAR_ENV_APP_BACKEND_LOCAL_SOURCE_FOLDER' \
+    | envsubst '$TF_VAR_ENV_APP_BACKEND_LOCAL_PORT' \
     | envsubst '$TF_VAR_ENV_APP_BACKEND_URL' \
     | envsubst '$TF_VAR_ENV_APP_DATABASE_HOST' \
     | envsubst '$TF_VAR_ENV_APP_DATABASE_NAME' \
