@@ -22,11 +22,11 @@ appenvsubstr(){
     | envsubst '$TF_VAR_ENV_PHP_REPO_NAME' \
     | envsubst '$TF_VAR_ENV_PHP_REPO_TAG_APACHE' \
     | envsubst '$TF_VAR_ENV_APP_AWS_REGION' \
-    | envsubst '$TF_VAR_ENV_PUSHER_APP_KEY' \
-    | envsubst '$TF_VAR_ENV_PUSHER_HOST' \
-    | envsubst '$TF_VAR_ENV_PUSHER_PORT' \
-    | envsubst '$TF_VAR_ENV_PUSHER_SCHEME' \
-    | envsubst '$TF_VAR_ENV_PUSHER_APP_CLUSTER' \
+    | envsubst '$TF_VAR_ENV_APP_PUSHER_APP_KEY' \
+    | envsubst '$TF_VAR_ENV_APP_PUSHER_HOST' \
+    | envsubst '$TF_VAR_ENV_APP_PUSHER_PORT' \
+    | envsubst '$TF_VAR_ENV_APP_PUSHER_SCHEME' \
+    | envsubst '$TF_VAR_ENV_APP_PUSHER_APP_CLUSTER' \
     | envsubst '$TF_VAR_ENV_APP_SCRIPT_MODE' \
     | envsubst '$TF_VAR_ENV_APP_BACKEND_EKS_CLUSTER_NAME' \
     | envsubst '$TF_VAR_ENV_APP_BACKEND_DOMAIN_NAME' \
