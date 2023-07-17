@@ -3,7 +3,7 @@
 THE_DATE=$(date '+%Y-%m-%d %H:%M:%S')
 log_msg "Build started on $THE_DATE"
 
-source_folder=$TF_VAR_ENV_APP_BACKEND_LOCAL_SOURCE_FOLDER
+source_folder=$TF_VAR_ENV_APP_BE_LOCAL_SOURCE_FOLDER
 
 mkdir -p $source_folder/tmp
 chmod 777 $source_folder/tmp

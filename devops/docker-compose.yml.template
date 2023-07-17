@@ -1,12 +1,12 @@
 services:
-  laravel-app-${TF_VAR_ENV_APP_ENV_NAME}:
-    image: ${TF_VAR_ENV_APP_NAME}:${TF_VAR_ENV_APP_BACKEND_NAMESPACE}_${TF_VAR_ENV_APP_ENV_NAME}
-    container_name:  ${TF_VAR_ENV_APP_NAME}_${TF_VAR_ENV_APP_BACKEND_NAMESPACE}_${TF_VAR_ENV_APP_ENV_NAME}
+  laravel-app-${TF_VAR_ENV_APP_GL_STAGE}:
+    image: ${TF_VAR_ENV_APP_GL_NAME}:${TF_VAR_ENV_APP_BE_NAMESPACE}_${TF_VAR_ENV_APP_GL_STAGE}
+    container_name:  ${TF_VAR_ENV_APP_GL_NAME}_${TF_VAR_ENV_APP_BE_NAMESPACE}_${TF_VAR_ENV_APP_GL_STAGE}
     build:
       context: ./
     volumes:
       - type: bind
-        source: ${TF_VAR_ENV_APP_BACKEND_LOCAL_SOURCE_FOLDER}/tmp
-        target: /var/www/html/${TF_VAR_ENV_APP_NAME}/tmp/
+        source: ${TF_VAR_ENV_APP_BE_LOCAL_SOURCE_FOLDER}/tmp
+        target: /var/www/html/${TF_VAR_ENV_APP_GL_NAME}/tmp/
     ports:
-        - '${TF_VAR_ENV_APP_BACKEND_LOCAL_PORT}:80'
+        - '${TF_VAR_ENV_APP_BE_LOCAL_PORT}:80'

@@ -1,24 +1,24 @@
 #!/bin/bash
 
-SCRIPT_MODE="$TF_VAR_ENV_APP_SCRIPT_MODE"
+SCRIPT_MODE="$TF_VAR_ENV_APP_GL_SCRIPT_MODE"
 
 if [ "$SCRIPT_MODE" == "CLOUDOCKER" ]
 then
 
-    mkdir -p $TF_VAR_ENV_APP_BACKEND_LOCAL_SOURCE_FOLDER/tmp
+    mkdir -p $TF_VAR_ENV_APP_BE_LOCAL_SOURCE_FOLDER/tmp
 
-    cd /var/www/html/$TF_VAR_ENV_APP_NAME
+    cd /var/www/html/$TF_VAR_ENV_APP_GL_NAME
 
-    aws ecr get-login-password --region $TF_VAR_ENV_APP_AWS_REGION | docker login --username AWS --password-stdin $TF_VAR_ENV_APP_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_AWS_REGION.amazonaws.com
+    aws ecr get-login-password --region $TF_VAR_ENV_APP_GL_AWS_REGION | docker login --username AWS --password-stdin $TF_VAR_ENV_APP_GL_AWS_ACCOUNT_ID.dkr.ecr.$TF_VAR_ENV_APP_GL_AWS_REGION.amazonaws.com
 
-    docker build -t $TF_VAR_ENV_APP_NAME:$TF_VAR_ENV_APP_BACKEND_NAMESPACE'_'$TF_VAR_ENV_APP_NAME .
+    docker build -t $TF_VAR_ENV_APP_GL_NAME:$TF_VAR_ENV_APP_BE_NAMESPACE'_'$TF_VAR_ENV_APP_GL_NAME .
 
     docker compose -f ./docker-compose.yml up -d
 
 else
 
     COMPOSER_ALLOW_SUPERUSER=1
-    cd /var/www/html/$TF_VAR_ENV_APP_NAME
+    cd /var/www/html/$TF_VAR_ENV_APP_GL_NAME
     sudo composer update --no-interaction
     sudo composer install --no-interaction
     sudo npm install

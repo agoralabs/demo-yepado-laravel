@@ -1,5 +1,5 @@
 #/etc/apache2/sites-available/000-default.conf
-<VirtualHost *:$TF_VAR_ENV_APP_BACKEND_LOCAL_PORT>
+<VirtualHost *:$TF_VAR_ENV_APP_BE_LOCAL_PORT>
         # The ServerName directive sets the request scheme, hostname and port that
         # the server uses to identify itself. This is used when creating
         # redirection URLs. In the context of virtual hosts, the ServerName
@@ -10,7 +10,7 @@
         #ServerName www.example.com
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/html/$TF_VAR_ENV_APP_NAME/public/
+        DocumentRoot /var/www/html/$TF_VAR_ENV_APP_GL_NAME/public/
 
         # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
         # error, crit, alert, emerg.
