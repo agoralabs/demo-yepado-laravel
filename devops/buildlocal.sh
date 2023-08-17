@@ -20,7 +20,7 @@ do
 done
 
 #For Laravel only
-env_file=$source_folder/.env.example
+env_file=$source_folder/devops/.env.example.template
 if [ -f "$env_file" ]; then
     log_msg "generate ./.env file..."
     appenvsubstr $env_file $source_folder/.env

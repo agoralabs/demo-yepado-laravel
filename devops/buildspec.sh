@@ -43,7 +43,8 @@ appenvsubstr devops/dir.conf.template dir.conf
 appenvsubstr devops/apache2.conf.template apache2.conf
 appenvsubstr devops/php.ini.template php.ini
 appenvsubstr devops/appspec.yml.template appspec.yml
-appenvsubstr .env.example .env
+appenvsubstr devops/.env.example.template .env
+#appenvsubstr .env.example .env
 
 appenvsubstr devops/appspec.sh.template devops/appspec.sh
 chmod 777 devops/appspec.sh
